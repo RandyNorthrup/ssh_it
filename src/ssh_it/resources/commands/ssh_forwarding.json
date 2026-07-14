@@ -1,0 +1,83 @@
+{
+  "defaults": {
+    "vendors": ["SSH / OpenSSH"],
+    "categories": ["SSH forwarding"],
+    "tags": ["ssh", "tunnel", "port-forward"],
+    "risk": "caution",
+    "requires_connection": false,
+    "platforms": ["any"],
+    "source": "https://man.openbsd.org/ssh.1"
+  },
+  "commands": [
+    {
+      "id": "ssh.connect.basic",
+      "title": "OpenSSH connection",
+      "command": "ssh -p ${port} ${user}@${host}",
+      "description": "Connect with explicit username and port using normal host-key verification.",
+      "categories": ["SSH client"],
+      "risk": "safe"
+    },
+    {
+      "id": "ssh.connect.key",
+      "title": "Connect with identity file",
+      "command": "ssh -i ${identity_file} -p ${port} ${user}@${host}",
+      "description": "Select a private identity file for one connection.",
+      "categories": ["SSH client"],
+      "risk": "safe"
+    },
+    {
+      "id": "ssh.connect.jump",
+      "title": "Connect through jump host",
+      "command": "ssh -J ${jump_user}@${jump_host} ${target_user}@${target_host}",
+      "description": "Reach target through an SSH jump host without forwarding authentication agent.",
+      "categories": ["SSH client"]
+    },
+    {
+      "id": "ssh.tunnel.local",
+      "title": "Local port forward",
+      "command": "ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:${local_port}:${destination_host}:${destination_port} ${user}@${ssh_host}",
+      "description": "Bind loopback local port and carry traffic through SSH to destination visible from server."
+    },
+    {
+      "id": "ssh.tunnel.remote",
+      "title": "Remote port forward",
+      "command": "ssh -N -o ExitOnForwardFailure=yes -R 127.0.0.1:${remote_port}:${local_host}:${local_port} ${user}@${ssh_host}",
+      "description": "Ask server to bind loopback remote port and forward back to a local service."
+    },
+    {
+      "id": "ssh.tunnel.socks",
+      "title": "Dynamic SOCKS proxy",
+      "command": "ssh -N -o ExitOnForwardFailure=yes -D 127.0.0.1:${local_port} ${user}@${ssh_host}",
+      "description": "Create local SOCKS4/5 proxy; applications choose destinations through SSH."
+    },
+    {
+      "id": "ssh.tunnel.jump-local",
+      "title": "Local forward through jump host",
+      "command": "ssh -N -J ${jump_user}@${jump_host} -L 127.0.0.1:${local_port}:${destination_host}:${destination_port} ${target_user}@${target_host}",
+      "description": "Create loopback local forward while reaching target through a bastion."
+    },
+    {
+      "id": "ssh.inspect.effective-config",
+      "title": "Effective OpenSSH configuration",
+      "command": "ssh -G ${host}",
+      "description": "Print client configuration after Host and Match rules without connecting.",
+      "categories": ["SSH diagnostics"],
+      "risk": "safe"
+    },
+    {
+      "id": "ssh.debug.verbose",
+      "title": "Verbose SSH diagnostics",
+      "command": "ssh -vvv -p ${port} ${user}@${host}",
+      "description": "Show detailed negotiation and authentication diagnostics; review output before sharing.",
+      "categories": ["SSH diagnostics"]
+    },
+    {
+      "id": "ssh.key.fingerprint",
+      "title": "Public key fingerprint",
+      "command": "ssh-keygen -lf ${public_key_file}",
+      "description": "Display algorithm, size, and fingerprint for a public key file.",
+      "categories": ["SSH keys"],
+      "risk": "safe"
+    }
+  ]
+}

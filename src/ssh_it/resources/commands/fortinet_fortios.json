@@ -1,0 +1,101 @@
+{
+  "defaults": {
+    "vendors": ["Fortinet FortiOS"],
+    "categories": ["FortiOS inspection"],
+    "tags": ["fortinet", "fortigate", "fortios", "network"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["fortios"],
+    "source": "https://docs.fortinet.com/document/fortigate/latest/cli-reference"
+  },
+  "commands": [
+    {
+      "id": "fortios.system.status",
+      "title": "FortiGate system status",
+      "command": "get system status",
+      "description": "Show model, serial, firmware, HA mode, hostname, and system time."
+    },
+    {
+      "id": "fortios.interface.physical",
+      "title": "Physical interface status",
+      "command": "get system interface physical",
+      "description": "Inspect physical link, speed, duplex, and interface counters.",
+      "categories": ["FortiOS interfaces"]
+    },
+    {
+      "id": "fortios.route.table",
+      "title": "FortiOS routing table",
+      "command": "get router info routing-table all",
+      "description": "Show installed routes across connected, static, and dynamic protocols.",
+      "categories": ["FortiOS routing"]
+    },
+    {
+      "id": "fortios.session.list",
+      "title": "Firewall sessions",
+      "command": "diagnose sys session list",
+      "description": "Display current session details; output can be large.",
+      "categories": ["FortiOS diagnostics"],
+      "risk": "caution"
+    },
+    {
+      "id": "fortios.ha.status",
+      "title": "HA cluster status",
+      "command": "get system ha status",
+      "description": "Inspect HA members, roles, checksums, and synchronization state.",
+      "categories": ["FortiOS HA"]
+    },
+    {
+      "id": "fortios.config.show",
+      "title": "Show active configuration",
+      "command": "show full-configuration",
+      "description": "Display complete active config. Output may expose sensitive values.",
+      "categories": ["FortiOS configuration"],
+      "risk": "caution"
+    },
+    {
+      "id": "fortios.performance.status",
+      "title": "FortiGate performance status",
+      "command": "get system performance status",
+      "description": "Show CPU, memory, session, throughput, and uptime health indicators.",
+      "categories": ["FortiOS performance"]
+    },
+    {
+      "id": "fortios.process.snapshot",
+      "title": "FortiGate process snapshot",
+      "command": "diagnose sys top 1 20",
+      "description": "Take a short bounded snapshot of active processes and resource use.",
+      "categories": ["FortiOS diagnostics"],
+      "risk": "caution"
+    },
+    {
+      "id": "fortios.interface.nic",
+      "title": "FortiGate NIC diagnostics",
+      "command": "diagnose hardware deviceinfo nic ${interface}",
+      "description": "Inspect driver, link, negotiation, error, and hardware counters for one interface.",
+      "categories": ["FortiOS interfaces", "FortiOS hardware"]
+    },
+    {
+      "id": "fortios.bgp.summary",
+      "title": "FortiGate BGP summary",
+      "command": "get router info bgp summary",
+      "description": "Summarize BGP neighbors, state, uptime, and received prefixes.",
+      "categories": ["FortiOS routing"]
+    },
+    {
+      "id": "fortios.vpn.tunnels",
+      "title": "FortiGate IPsec tunnel details",
+      "command": "diagnose vpn tunnel list",
+      "description": "Inspect negotiated IPsec security associations, selectors, counters, and state.",
+      "categories": ["FortiOS VPN"],
+      "risk": "caution"
+    },
+    {
+      "id": "fortios.crashlog.read",
+      "title": "FortiGate crash log",
+      "command": "diagnose debug crashlog read",
+      "description": "Read retained crash and watchdog records for stability troubleshooting.",
+      "categories": ["FortiOS logs", "FortiOS diagnostics"],
+      "risk": "caution"
+    }
+  ]
+}

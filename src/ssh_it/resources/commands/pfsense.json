@@ -1,0 +1,169 @@
+{
+  "defaults": {
+    "vendors": ["Netgate pfSense"],
+    "tags": ["netgate", "pfsense", "freebsd", "firewall"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["pfsense"],
+    "source": "https://docs.netgate.com/pfsense/en/latest/diagnostics/index.html"
+  },
+  "commands": [
+    {
+      "id": "pfsense.system.uname",
+      "title": "Kernel and platform",
+      "command": "uname -a",
+      "description": "Show FreeBSD kernel, architecture, hostname, and build information.",
+      "categories": ["pfSense system"]
+    },
+    {
+      "id": "pfsense.system.uptime",
+      "title": "Uptime and load",
+      "command": "uptime",
+      "description": "Show system uptime, logged-in users, and load averages.",
+      "categories": ["pfSense system"]
+    },
+    {
+      "id": "pfsense.interfaces",
+      "title": "Interface configuration",
+      "command": "ifconfig -a",
+      "description": "Show interface state, addressing, media, flags, and packet counters.",
+      "categories": ["pfSense interfaces"]
+    },
+    {
+      "id": "pfsense.routes",
+      "title": "Routing table",
+      "command": "netstat -rn",
+      "description": "Show IPv4 and IPv6 routes, gateways, flags, metrics, and interfaces.",
+      "categories": ["pfSense routing"]
+    },
+    {
+      "id": "pfsense.arp",
+      "title": "ARP table",
+      "command": "arp -an",
+      "description": "Show IPv4 neighbor cache entries, MAC addresses, and interfaces.",
+      "categories": ["pfSense neighbors"]
+    },
+    {
+      "id": "pfsense.sockets",
+      "title": "Listening and connected sockets",
+      "command": "sockstat -4 -6",
+      "description": "Show processes, users, descriptors, protocols, and local or remote endpoints.",
+      "categories": ["pfSense networking"],
+      "risk": "caution"
+    },
+    {
+      "id": "pfsense.pf.info",
+      "title": "Packet filter status",
+      "command": "pfctl -si",
+      "description": "Show PF enabled state, counters, limits, state usage, and runtime statistics.",
+      "categories": ["pfSense packet filter"]
+    },
+    {
+      "id": "pfsense.pf.rules",
+      "title": "Loaded filter rules",
+      "command": "pfctl -vvsr",
+      "description": "Show detailed loaded filter rules, labels, evaluations, packets, and bytes.",
+      "categories": ["pfSense packet filter"],
+      "risk": "caution",
+      "source": "https://docs.netgate.com/pfsense/en/latest/monitoring/logs/firewall.html"
+    },
+    {
+      "id": "pfsense.pf.nat",
+      "title": "Loaded NAT rules",
+      "command": "pfctl -sn",
+      "description": "Show active PF translation and redirection rules.",
+      "categories": ["pfSense NAT"],
+      "risk": "caution"
+    },
+    {
+      "id": "pfsense.pf.states",
+      "title": "Firewall state table",
+      "command": "pfctl -ss",
+      "description": "Show active PF states and translated flow endpoints; output can expose internal traffic.",
+      "categories": ["pfSense states"],
+      "risk": "caution",
+      "source": "https://docs.netgate.com/pfsense/en/latest/troubleshooting/firewall.html"
+    },
+    {
+      "id": "pfsense.pf.table",
+      "title": "PF table contents",
+      "command": "pfctl -t ${table} -T show",
+      "description": "Show addresses currently loaded in one named PF alias table.",
+      "categories": ["pfSense packet filter"],
+      "risk": "caution"
+    },
+    {
+      "id": "pfsense.filter.log",
+      "title": "Parsed firewall log",
+      "command": "tail -n ${lines} /var/log/filter.log | filterparser.php",
+      "description": "Parse a bounded tail of firewall decisions into readable endpoint and rule data.",
+      "categories": ["pfSense logs"],
+      "risk": "caution",
+      "source": "https://docs.netgate.com/pfsense/en/latest/monitoring/logs/firewall.html"
+    },
+    {
+      "id": "pfsense.system.log",
+      "title": "Recent system log",
+      "command": "tail -n ${lines} /var/log/system.log",
+      "description": "Read a bounded number of recent system log lines.",
+      "categories": ["pfSense logs"],
+      "risk": "caution"
+    },
+    {
+      "id": "pfsense.capture.bounded",
+      "title": "Bounded packet capture",
+      "command": "tcpdump -n -i ${interface} -c ${count}",
+      "description": "Capture a bounded number of packet headers on one interface; payload and endpoint data are sensitive.",
+      "categories": ["pfSense packet capture"],
+      "risk": "caution",
+      "source": "https://docs.netgate.com/pfsense/en/latest/diagnostics/packetcapture/tcpdump.html"
+    },
+    {
+      "id": "pfsense.capture.host",
+      "title": "Capture traffic for host",
+      "command": "tcpdump -n -i ${interface} -c ${count} host ${host}",
+      "description": "Capture a bounded set of packets involving one host on one interface.",
+      "categories": ["pfSense packet capture"],
+      "risk": "caution",
+      "source": "https://docs.netgate.com/pfsense/en/latest/diagnostics/packetcapture/tcpdump.html"
+    },
+    {
+      "id": "pfsense.ping",
+      "title": "Bounded ping",
+      "command": "ping -c ${count} ${host}",
+      "description": "Send a bounded set of ICMP echo probes from the firewall.",
+      "categories": ["pfSense diagnostics"]
+    },
+    {
+      "id": "pfsense.traceroute",
+      "title": "Trace network path",
+      "command": "traceroute ${host}",
+      "description": "Trace layer-3 hops from the firewall toward a destination.",
+      "categories": ["pfSense diagnostics"]
+    },
+    {
+      "id": "pfsense.dns.lookup",
+      "title": "DNS lookup",
+      "command": "drill ${host}",
+      "description": "Resolve a hostname using DNS from the firewall shell.",
+      "categories": ["pfSense DNS"]
+    },
+    {
+      "id": "pfsense.packages.audit",
+      "title": "Installed package audit",
+      "command": "pkg audit -F",
+      "description": "Refresh vulnerability metadata and audit installed FreeBSD packages; requires repository access.",
+      "categories": ["pfSense packages"],
+      "risk": "caution"
+    },
+    {
+      "id": "pfsense.service.restart",
+      "title": "Restart service through pfSense tools",
+      "command": "pfSsh.php playback svc restart ${service}",
+      "description": "Restart one pfSense-managed service and potentially disrupt firewall functionality.",
+      "categories": ["pfSense services"],
+      "risk": "destructive",
+      "source": "https://docs.netgate.com/pfsense/en/latest/development/php-shell.html"
+    }
+  ]
+}

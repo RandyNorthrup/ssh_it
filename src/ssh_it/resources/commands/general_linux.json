@@ -1,0 +1,97 @@
+{
+  "defaults": {
+    "vendors": ["General Linux"],
+    "categories": ["Linux inspection"],
+    "tags": ["linux", "diagnostics"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["linux"]
+  },
+  "commands": [
+    {
+      "id": "linux.system.summary",
+      "title": "System and kernel summary",
+      "command": "uname -a && uptime",
+      "description": "Show kernel, architecture, current uptime, load averages, and logged-in user count."
+    },
+    {
+      "id": "linux.network.addresses",
+      "title": "IP addresses",
+      "command": "ip -brief address show",
+      "description": "Show a compact list of interfaces, state, and assigned IPv4/IPv6 addresses.",
+      "categories": ["Network diagnostics"]
+    },
+    {
+      "id": "linux.network.routes",
+      "title": "Routing table",
+      "command": "ip route show table all",
+      "description": "Display routes from every Linux routing table.",
+      "categories": ["Network diagnostics"]
+    },
+    {
+      "id": "linux.network.listeners",
+      "title": "Listening sockets",
+      "command": "ss -tulpn",
+      "description": "List listening TCP/UDP sockets and owning processes when permissions allow.",
+      "categories": ["Network diagnostics"]
+    },
+    {
+      "id": "linux.network.ping",
+      "title": "Bounded ping",
+      "command": "ping -c ${count} ${host}",
+      "description": "Send a bounded number of ICMP probes instead of running until interrupted.",
+      "categories": ["Network diagnostics"]
+    },
+    {
+      "id": "linux.network.dns",
+      "title": "DNS answer lookup",
+      "command": "dig +short ${hostname}",
+      "description": "Resolve a hostname and return concise DNS answer records.",
+      "categories": ["Network diagnostics"]
+    },
+    {
+      "id": "linux.storage.summary",
+      "title": "Filesystem usage",
+      "command": "df -hT",
+      "description": "Show mounted filesystem types and human-readable capacity usage.",
+      "categories": ["Storage"]
+    },
+    {
+      "id": "linux.storage.large",
+      "title": "Largest paths in directory",
+      "command": "du -xhd 1 ${path} 2>/dev/null | sort -h | tail -n ${count}",
+      "description": "Summarize largest immediate children without crossing filesystem boundaries.",
+      "categories": ["Storage"],
+      "risk": "caution"
+    },
+    {
+      "id": "linux.service.status",
+      "title": "Service status",
+      "command": "systemctl status ${service} --no-pager --full",
+      "description": "Inspect service state and recent messages without opening a pager.",
+      "categories": ["Services"]
+    },
+    {
+      "id": "linux.service.logs",
+      "title": "Recent service journal",
+      "command": "journalctl -u ${service} -n ${lines} --no-pager -o short-iso",
+      "description": "Read a bounded timestamped service log from systemd journal.",
+      "categories": ["Logs"]
+    },
+    {
+      "id": "linux.process.top",
+      "title": "Top CPU processes",
+      "command": "ps -eo pid,user,ppid,%cpu,%mem,stat,etime,comm --sort=-%cpu | head -n ${count}",
+      "description": "Show a non-interactive snapshot of highest CPU consumers.",
+      "categories": ["Processes"]
+    },
+    {
+      "id": "linux.logs.follow",
+      "title": "Follow a log file",
+      "command": "tail -n ${lines} -F ${path}",
+      "description": "Show recent lines and follow the file across log rotation.",
+      "categories": ["Logs"],
+      "risk": "caution"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "defaults": {
+    "vendors": ["MikroTik RouterOS"],
+    "categories": ["RouterOS inspection"],
+    "tags": ["mikrotik", "routeros", "network"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["routeros"],
+    "source": "https://help.mikrotik.com/docs/spaces/ROS/pages/328134/Command+Line+Interface"
+  },
+  "commands": [
+    {
+      "id": "routeros.system.resource",
+      "title": "Router resource summary",
+      "command": "/system resource print",
+      "description": "Show uptime, RouterOS version, CPU, memory, storage, and architecture."
+    },
+    {
+      "id": "routeros.interface.print",
+      "title": "RouterOS interfaces",
+      "command": "/interface print detail",
+      "description": "List interface flags, types, MAC addresses, MTU, and state.",
+      "categories": ["RouterOS interfaces"]
+    },
+    {
+      "id": "routeros.ip.address",
+      "title": "RouterOS IP addresses",
+      "command": "/ip address print detail",
+      "description": "Show configured IPv4 addresses and interface association.",
+      "categories": ["RouterOS IP"]
+    },
+    {
+      "id": "routeros.ip.route",
+      "title": "RouterOS routes",
+      "command": "/ip route print detail",
+      "description": "Inspect active/inactive routes, gateways, distance, and scope.",
+      "categories": ["RouterOS routing"]
+    },
+    {
+      "id": "routeros.log.recent",
+      "title": "RouterOS log",
+      "command": "/log print without-paging",
+      "description": "Display log entries without interactive paging.",
+      "categories": ["RouterOS logs"]
+    },
+    {
+      "id": "routeros.export.hide-sensitive",
+      "title": "Export configuration without secrets",
+      "command": "/export hide-sensitive",
+      "description": "Export text configuration while redacting supported sensitive fields.",
+      "categories": ["RouterOS configuration"],
+      "risk": "caution"
+    },
+    {
+      "id": "routeros.arp.table",
+      "title": "RouterOS ARP details",
+      "command": "/ip arp print detail",
+      "description": "Inspect IPv4 neighbor address, MAC, interface, status, and origin.",
+      "categories": ["RouterOS neighbors"]
+    },
+    {
+      "id": "routeros.firewall.connection-count",
+      "title": "RouterOS connection count",
+      "command": "/ip firewall connection print count-only",
+      "description": "Return the current tracked firewall connection count without a large listing.",
+      "categories": ["RouterOS firewall"]
+    },
+    {
+      "id": "routeros.firewall.filter-stats",
+      "title": "RouterOS firewall rule statistics",
+      "command": "/ip firewall filter print stats",
+      "description": "Show filter rules with packet and byte counters for policy troubleshooting.",
+      "categories": ["RouterOS firewall"],
+      "risk": "caution"
+    },
+    {
+      "id": "routeros.bridge.hosts",
+      "title": "RouterOS bridge host table",
+      "command": "/interface bridge host print",
+      "description": "Inspect bridge-learned MAC addresses, interfaces, VLAN IDs, and flags.",
+      "categories": ["RouterOS layer 2"]
+    },
+    {
+      "id": "routeros.bgp.sessions.v7",
+      "title": "RouterOS v7 BGP sessions",
+      "command": "/routing bgp session print detail",
+      "description": "Inspect BGP session state and counters using the RouterOS v7 routing menu.",
+      "categories": ["RouterOS routing"],
+      "platforms": ["routeros-v7"]
+    },
+    {
+      "id": "routeros.system.health",
+      "title": "RouterOS hardware health",
+      "command": "/system health print",
+      "description": "Show supported temperature, voltage, fan, and power sensor readings.",
+      "categories": ["RouterOS hardware"]
+    }
+  ]
+}

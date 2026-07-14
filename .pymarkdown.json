@@ -1,0 +1,10 @@
+{
+  "plugins": {
+    "md013": {
+      "line_length": 100,
+      "code_block_line_length": 100,
+      "heading_line_length": 100,
+      "table_line_length": 100
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "defaults": {
+    "vendors": ["Juniper Junos"],
+    "categories": ["Junos inspection"],
+    "tags": ["juniper", "junos", "network"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["junos"],
+    "source": "https://www.juniper.net/documentation/us/en/software/junos/cli-reference/topics/ref/command/show-interfaces-terse.html"
+  },
+  "commands": [
+    {
+      "id": "junos.system.version",
+      "title": "Junos version and model",
+      "command": "show version",
+      "description": "Show hostname, chassis model, and installed Junos packages."
+    },
+    {
+      "id": "junos.interface.terse",
+      "title": "Terse interface summary",
+      "command": "show interfaces terse",
+      "description": "Summarize physical/logical interface state and protocol addresses.",
+      "categories": ["Junos interfaces"]
+    },
+    {
+      "id": "junos.route.table",
+      "title": "Junos route table",
+      "command": "show route",
+      "description": "Show active and candidate routes with protocol source.",
+      "categories": ["Junos routing"]
+    },
+    {
+      "id": "junos.route.bgp-summary",
+      "title": "BGP neighbor summary",
+      "command": "show bgp summary",
+      "description": "Show BGP peer state, uptime, and route counters.",
+      "categories": ["Junos routing"]
+    },
+    {
+      "id": "junos.logs.recent",
+      "title": "Recent system messages",
+      "command": "show log messages | last ${lines}",
+      "description": "Read a bounded tail of Junos system log messages.",
+      "categories": ["Junos logs"]
+    },
+    {
+      "id": "junos.config.compare",
+      "title": "Compare candidate changes",
+      "command": "show | compare",
+      "description": "From configuration mode, display uncommitted candidate differences.",
+      "categories": ["Junos configuration"],
+      "risk": "caution"
+    },
+    {
+      "id": "junos.config.commit-confirmed",
+      "title": "Commit with automatic rollback",
+      "command": "commit confirmed ${minutes}",
+      "description": "Commit candidate config but roll back unless confirmed within chosen minutes.",
+      "categories": ["Junos configuration"],
+      "risk": "destructive"
+    },
+    {
+      "id": "junos.chassis.hardware",
+      "title": "Junos chassis hardware inventory",
+      "command": "show chassis hardware",
+      "description": "Show chassis components, part numbers, revisions, and serial numbers.",
+      "categories": ["Junos hardware"]
+    },
+    {
+      "id": "junos.chassis.alarms",
+      "title": "Junos chassis alarms",
+      "command": "show chassis alarms",
+      "description": "Show active chassis alarms and severity without changing state.",
+      "categories": ["Junos hardware", "Junos alarms"]
+    },
+    {
+      "id": "junos.switching.mac",
+      "title": "Junos Ethernet switching table",
+      "command": "show ethernet-switching table",
+      "description": "Inspect learned Ethernet addresses, VLANs, interfaces, and entry state.",
+      "categories": ["Junos layer 2"]
+    },
+    {
+      "id": "junos.arp.table",
+      "title": "Junos ARP table",
+      "command": "show arp no-resolve",
+      "description": "Show IPv4 neighbor mappings without reverse-DNS delays.",
+      "categories": ["Junos neighbors"]
+    },
+    {
+      "id": "junos.ospf.neighbors",
+      "title": "Junos OSPF neighbors",
+      "command": "show ospf neighbor",
+      "description": "Inspect OSPF neighbor state, interface, priority, and dead timer.",
+      "categories": ["Junos routing"]
+    },
+    {
+      "id": "junos.lldp.neighbors",
+      "title": "Junos LLDP neighbor details",
+      "command": "show lldp neighbors detail",
+      "description": "Inspect discovered neighbor chassis, port, capabilities, and management address.",
+      "categories": ["Junos neighbors"]
+    }
+  ]
+}

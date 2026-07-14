@@ -1,0 +1,98 @@
+{
+  "defaults": {
+    "vendors": ["Cisco IOS / IOS XE"],
+    "categories": ["Cisco inspection"],
+    "tags": ["cisco", "ios", "ios-xe", "network"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["cisco-ios"],
+    "source": "https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9500/software/release/17-11/command_reference/b_1711_9500_cr/interface_and_hardware_commands.html"
+  },
+  "commands": [
+    {
+      "id": "cisco.session.no-pager",
+      "title": "Disable paging for session",
+      "command": "terminal length 0",
+      "description": "Show complete command output without --More-- prompts for current session.",
+      "categories": ["Cisco session"]
+    },
+    {
+      "id": "cisco.system.version",
+      "title": "Platform and software version",
+      "command": "show version",
+      "description": "Show hardware model, IOS release, uptime, image, and reload reason."
+    },
+    {
+      "id": "cisco.interface.brief",
+      "title": "IP interface summary",
+      "command": "show ip interface brief",
+      "description": "Summarize interface addresses and administrative/protocol state.",
+      "categories": ["Cisco interfaces"]
+    },
+    {
+      "id": "cisco.interface.status",
+      "title": "Switchport status",
+      "command": "show interfaces status",
+      "description": "Show port link state, VLAN, duplex, speed, and media type.",
+      "categories": ["Cisco interfaces"]
+    },
+    {
+      "id": "cisco.interface.errors",
+      "title": "Interface error counters",
+      "command": "show interfaces counters errors",
+      "description": "Summarize receive/transmit errors and discards by interface.",
+      "categories": ["Cisco interfaces"]
+    },
+    {
+      "id": "cisco.vlan.brief",
+      "title": "VLAN summary",
+      "command": "show vlan brief",
+      "description": "List VLAN IDs, names, status, and assigned access ports.",
+      "categories": ["Cisco layer 2"]
+    },
+    {
+      "id": "cisco.mac.dynamic",
+      "title": "Dynamic MAC address table",
+      "command": "show mac address-table dynamic",
+      "description": "List learned MAC addresses, VLANs, and egress ports.",
+      "categories": ["Cisco layer 2"]
+    },
+    {
+      "id": "cisco.neighbor.cdp",
+      "title": "Detailed CDP neighbors",
+      "command": "show cdp neighbors detail",
+      "description": "Show Cisco neighbor identity, platform, remote port, and management address.",
+      "categories": ["Cisco discovery"]
+    },
+    {
+      "id": "cisco.route.table",
+      "title": "IPv4 route table",
+      "command": "show ip route",
+      "description": "Display installed IPv4 routes and source protocols.",
+      "categories": ["Cisco routing"]
+    },
+    {
+      "id": "cisco.route.ospf-neighbors",
+      "title": "OSPF neighbor summary",
+      "command": "show ip ospf neighbor",
+      "description": "Show OSPF neighbor IDs, states, timers, and interfaces.",
+      "categories": ["Cisco routing"]
+    },
+    {
+      "id": "cisco.config.running",
+      "title": "Running configuration",
+      "command": "show running-config",
+      "description": "Display active configuration. Output can contain secrets; handle copies carefully.",
+      "categories": ["Cisco configuration"],
+      "risk": "caution"
+    },
+    {
+      "id": "cisco.config.save",
+      "title": "Save running configuration",
+      "command": "copy running-config startup-config",
+      "description": "Persist active changes for next boot. Review running configuration first.",
+      "categories": ["Cisco configuration"],
+      "risk": "destructive"
+    }
+  ]
+}

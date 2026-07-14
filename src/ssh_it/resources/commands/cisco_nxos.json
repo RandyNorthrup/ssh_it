@@ -1,0 +1,154 @@
+{
+  "defaults": {
+    "vendors": ["Cisco NX-OS"],
+    "tags": ["cisco", "nx-os", "nexus", "datacenter"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["cisco-nxos"],
+    "source": "https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/7-x/command_references/show_commands/b_Using_Show_Commands/b_Using_Show_Commands_chapter_010101.html"
+  },
+  "commands": [
+    {
+      "id": "nxos.system.version",
+      "title": "NX-OS version and uptime",
+      "command": "show version",
+      "description": "Show chassis, NX-OS image, BIOS, boot mode, uptime, and last reload reason.",
+      "categories": ["NX-OS system"]
+    },
+    {
+      "id": "nxos.inventory",
+      "title": "Hardware inventory",
+      "command": "show inventory",
+      "description": "List chassis, modules, power supplies, transceivers, and serial identifiers.",
+      "categories": ["NX-OS hardware"]
+    },
+    {
+      "id": "nxos.module",
+      "title": "Module health",
+      "command": "show module",
+      "description": "Show line-card, supervisor, fabric, and module state and diagnostics.",
+      "categories": ["NX-OS hardware"]
+    },
+    {
+      "id": "nxos.interface.status",
+      "title": "Interface status table",
+      "command": "show interface status",
+      "description": "Show link, VLAN, duplex, speed, and transceiver type for switch ports.",
+      "categories": ["NX-OS interfaces"]
+    },
+    {
+      "id": "nxos.interface.detail",
+      "title": "Interface details",
+      "command": "show interface ${interface}",
+      "description": "Inspect link state, MTU, addressing, rates, errors, and queue counters for one interface.",
+      "categories": ["NX-OS interfaces"]
+    },
+    {
+      "id": "nxos.interface.errors",
+      "title": "Interface error counters",
+      "command": "show interface counters errors",
+      "description": "Compare receive, transmit, collision, discard, and protocol error counters across ports.",
+      "categories": ["NX-OS interfaces"]
+    },
+    {
+      "id": "nxos.portchannel.summary",
+      "title": "Port-channel summary",
+      "command": "show port-channel summary",
+      "description": "Show aggregate state, member flags, protocols, and operational bundles.",
+      "categories": ["NX-OS link aggregation"]
+    },
+    {
+      "id": "nxos.vpc.brief",
+      "title": "vPC health summary",
+      "command": "show vpc brief",
+      "description": "Show vPC peer adjacency, keepalive, consistency, peer-link, and member status.",
+      "categories": ["NX-OS vPC"]
+    },
+    {
+      "id": "nxos.vpc.consistency",
+      "title": "vPC global consistency",
+      "command": "show vpc consistency-parameters global",
+      "description": "Compare global Type-1 and Type-2 parameters between vPC peers.",
+      "categories": ["NX-OS vPC"]
+    },
+    {
+      "id": "nxos.spanning.summary",
+      "title": "Spanning-tree summary",
+      "command": "show spanning-tree summary",
+      "description": "Summarize spanning-tree mode, root roles, topology changes, and feature state.",
+      "categories": ["NX-OS spanning tree"]
+    },
+    {
+      "id": "nxos.vlan.brief",
+      "title": "VLAN summary",
+      "command": "show vlan brief",
+      "description": "Show VLAN IDs, names, state, and member ports.",
+      "categories": ["NX-OS VLANs"]
+    },
+    {
+      "id": "nxos.mac.table",
+      "title": "MAC address table",
+      "command": "show mac address-table",
+      "description": "Display learned, static, and control-plane MAC entries with VLAN and interface.",
+      "categories": ["NX-OS switching"]
+    },
+    {
+      "id": "nxos.arp",
+      "title": "ARP table",
+      "command": "show ip arp",
+      "description": "Display IPv4 neighbors, age, MAC address, and associated interface.",
+      "categories": ["NX-OS neighbors"]
+    },
+    {
+      "id": "nxos.route",
+      "title": "IPv4 routing table",
+      "command": "show ip route",
+      "description": "Show installed IPv4 prefixes, administrative distance, metric, and next hop.",
+      "categories": ["NX-OS routing"]
+    },
+    {
+      "id": "nxos.bgp.summary",
+      "title": "BGP summary",
+      "command": "show ip bgp summary",
+      "description": "Summarize BGP neighbors, state, uptime, and prefix counts.",
+      "categories": ["NX-OS BGP"]
+    },
+    {
+      "id": "nxos.ospf.neighbors",
+      "title": "OSPF neighbors",
+      "command": "show ip ospf neighbors",
+      "description": "Show OSPF adjacency state, dead time, neighbor ID, and interface.",
+      "categories": ["NX-OS OSPF"]
+    },
+    {
+      "id": "nxos.lldp.detail",
+      "title": "LLDP neighbor details",
+      "command": "show lldp neighbors detail",
+      "description": "Show neighboring system identity, management address, port, and capabilities.",
+      "categories": ["NX-OS discovery"]
+    },
+    {
+      "id": "nxos.logging.last",
+      "title": "Recent log messages",
+      "command": "show logging last ${lines}",
+      "description": "Read a bounded number of most recent NX-OS log messages.",
+      "categories": ["NX-OS logs"],
+      "risk": "caution"
+    },
+    {
+      "id": "nxos.environment",
+      "title": "Environmental health",
+      "command": "show environment",
+      "description": "Show temperature, fan, power, and environmental alarm state.",
+      "categories": ["NX-OS hardware"]
+    },
+    {
+      "id": "nxos.config.running",
+      "title": "Running configuration",
+      "command": "show running-config",
+      "description": "Display active configuration, which can expose infrastructure and credential material.",
+      "categories": ["NX-OS configuration"],
+      "risk": "caution"
+    }
+  ]
+}

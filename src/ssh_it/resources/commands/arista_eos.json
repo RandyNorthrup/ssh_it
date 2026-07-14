@@ -1,0 +1,97 @@
+{
+  "defaults": {
+    "vendors": ["Arista EOS"],
+    "categories": ["Arista inspection"],
+    "tags": ["arista", "eos", "network"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["arista-eos"],
+    "source": "https://www.arista.com/en/um-eos/eos-command-line-interface-cli"
+  },
+  "commands": [
+    {
+      "id": "arista.system.version",
+      "title": "EOS version and hardware",
+      "command": "show version",
+      "description": "Show EOS release, platform, serial number, uptime, and memory."
+    },
+    {
+      "id": "arista.interface.status",
+      "title": "EOS interface status",
+      "command": "show interfaces status",
+      "description": "Summarize link, VLAN, duplex, speed, and media by port.",
+      "categories": ["Arista interfaces"]
+    },
+    {
+      "id": "arista.interface.counters",
+      "title": "EOS interface error counters",
+      "command": "show interfaces counters errors",
+      "description": "Show aligned error/discard counters across interfaces.",
+      "categories": ["Arista interfaces"]
+    },
+    {
+      "id": "arista.mlag.status",
+      "title": "MLAG status",
+      "command": "show mlag",
+      "description": "Inspect MLAG state, peer link, negotiation, and configuration consistency.",
+      "categories": ["Arista layer 2"]
+    },
+    {
+      "id": "arista.bgp.summary",
+      "title": "EOS BGP summary",
+      "command": "show ip bgp summary",
+      "description": "Summarize BGP peers, session state, and prefix counts.",
+      "categories": ["Arista routing"]
+    },
+    {
+      "id": "arista.config.diff",
+      "title": "Session configuration diff",
+      "command": "show session-config diffs",
+      "description": "Review pending config-session differences before commit.",
+      "categories": ["Arista configuration"],
+      "risk": "caution"
+    },
+    {
+      "id": "arista.route.table",
+      "title": "EOS IPv4 routing table",
+      "command": "show ip route",
+      "description": "Inspect installed IPv4 routes, preference, metric, next hop, and age.",
+      "categories": ["Arista routing"]
+    },
+    {
+      "id": "arista.vlan.summary",
+      "title": "EOS VLAN summary",
+      "command": "show vlan",
+      "description": "Show VLAN identifiers, names, state, and member ports.",
+      "categories": ["Arista layer 2"]
+    },
+    {
+      "id": "arista.mac.table",
+      "title": "EOS MAC address table",
+      "command": "show mac address-table",
+      "description": "Inspect learned MAC addresses, VLANs, ports, and entry types.",
+      "categories": ["Arista layer 2"]
+    },
+    {
+      "id": "arista.lldp.neighbors",
+      "title": "EOS LLDP neighbor details",
+      "command": "show lldp neighbors detail",
+      "description": "Inspect connected neighbor identity, management address, platform, and port data.",
+      "categories": ["Arista neighbors"]
+    },
+    {
+      "id": "arista.environment.all",
+      "title": "EOS environmental health",
+      "command": "show environment all",
+      "description": "Show supported temperature, cooling, power, and environmental sensor status.",
+      "categories": ["Arista hardware"]
+    },
+    {
+      "id": "arista.logs.recent",
+      "title": "Recent EOS log messages",
+      "command": "show logging last ${lines}",
+      "description": "Read a bounded number of the most recent EOS log messages.",
+      "categories": ["Arista logs"]
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "defaults": {
+    "vendors": ["Containers"],
+    "categories": ["Container inspection"],
+    "tags": ["docker", "podman", "container"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["linux"],
+    "source": "https://docs.docker.com/reference/cli/docker/"
+  },
+  "commands": [
+    {
+      "id": "containers.docker.ps",
+      "title": "Running Docker containers",
+      "command": "docker ps --no-trunc",
+      "description": "Show running containers, full IDs, images, commands, status, and published ports."
+    },
+    {
+      "id": "containers.docker.stats",
+      "title": "Container resource snapshot",
+      "command": "docker stats --no-stream",
+      "description": "Capture one CPU, memory, network, and block-I/O sample."
+    },
+    {
+      "id": "containers.docker.logs",
+      "title": "Recent container logs",
+      "command": "docker logs --tail ${lines} --timestamps ${container}",
+      "description": "Read bounded timestamped stdout/stderr from a container.",
+      "categories": ["Container logs"]
+    },
+    {
+      "id": "containers.docker.inspect",
+      "title": "Inspect container metadata",
+      "command": "docker inspect ${container}",
+      "description": "Show detailed JSON configuration and runtime state. Output can contain secrets.",
+      "risk": "caution"
+    },
+    {
+      "id": "containers.compose.ps",
+      "title": "Compose service status",
+      "command": "docker compose ps --all",
+      "description": "Show current and exited services for Compose project.",
+      "categories": ["Docker Compose"]
+    },
+    {
+      "id": "containers.compose.config",
+      "title": "Resolved Compose configuration",
+      "command": "docker compose config --no-interpolate",
+      "description": "Validate and render Compose model without interpolating environment variables.",
+      "categories": ["Docker Compose"],
+      "risk": "caution"
+    },
+    {
+      "id": "containers.docker.ps-all",
+      "title": "All Docker containers",
+      "command": "docker ps --all --no-trunc",
+      "description": "Show running and stopped containers with full IDs and commands.",
+      "categories": ["Container inventory"]
+    },
+    {
+      "id": "containers.docker.disk",
+      "title": "Docker disk usage",
+      "command": "docker system df",
+      "description": "Summarize image, container, local-volume, and build-cache disk consumption.",
+      "categories": ["Container storage"]
+    },
+    {
+      "id": "containers.docker.networks",
+      "title": "Docker networks",
+      "command": "docker network ls",
+      "description": "List Docker networks, drivers, scope, and identifiers.",
+      "categories": ["Container networking"]
+    },
+    {
+      "id": "containers.docker.volumes",
+      "title": "Docker volumes",
+      "command": "docker volume ls",
+      "description": "List managed Docker volumes and drivers without inspecting stored content.",
+      "categories": ["Container storage"]
+    },
+    {
+      "id": "containers.compose.logs",
+      "title": "Recent Compose service logs",
+      "command": "docker compose logs --tail ${lines} --timestamps ${service}",
+      "description": "Read a bounded timestamped log for one Compose service.",
+      "categories": ["Docker Compose", "Container logs"]
+    },
+    {
+      "id": "containers.compose.restart",
+      "title": "Restart Compose service",
+      "command": "docker compose restart ${service}",
+      "description": "Restart one Compose service and disrupt its running workload.",
+      "categories": ["Docker Compose", "Container lifecycle"],
+      "risk": "destructive"
+    }
+  ]
+}

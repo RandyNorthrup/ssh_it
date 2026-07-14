@@ -1,0 +1,351 @@
+{
+  "defaults": {
+    "vendors": ["UniFi"],
+    "categories": ["UniFi diagnostics"],
+    "tags": ["ubiquiti", "unifi", "network", "technician"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["unifi-device"],
+    "source": "https://help.ui.com/hc/en-us/articles/204909374-Connecting-to-UniFi-with-Debug-Tools-SSH"
+  },
+  "commands": [
+    {
+      "id": "unifi.device.info",
+      "title": "Device adoption information",
+      "command": "info",
+      "description": "Show model, firmware, controller inform URL, and adoption state on supported UniFi access points and switches.",
+      "categories": ["UniFi adoption", "UniFi inventory"],
+      "platforms": ["unifi-ap", "unifi-switch"]
+    },
+    {
+      "id": "unifi.device.version",
+      "title": "Firmware version file",
+      "command": "cat /etc/version",
+      "description": "Read the installed device firmware version. File availability varies across UniFi OS generations.",
+      "categories": ["UniFi firmware", "UniFi inventory"]
+    },
+    {
+      "id": "unifi.device.uptime",
+      "title": "Device uptime and load",
+      "command": "uptime",
+      "description": "Show uptime, load averages, and current session count using the device Linux environment.",
+      "categories": ["UniFi health"]
+    },
+    {
+      "id": "unifi.device.date",
+      "title": "Device clock",
+      "command": "date",
+      "description": "Show the device clock and timezone for log-correlation checks.",
+      "categories": ["UniFi health", "UniFi time"]
+    },
+    {
+      "id": "unifi.device.memory",
+      "title": "Memory summary",
+      "command": "free -h",
+      "description": "Show available and used memory where the installed firmware includes the free utility.",
+      "categories": ["UniFi health", "UniFi memory"]
+    },
+    {
+      "id": "unifi.device.storage",
+      "title": "Filesystem capacity",
+      "command": "df -h",
+      "description": "Show filesystem capacity and identify full partitions which can disrupt upgrades or logging.",
+      "categories": ["UniFi health", "UniFi storage"]
+    },
+    {
+      "id": "unifi.device.processes",
+      "title": "Process snapshot",
+      "command": "ps w",
+      "description": "Show a portable process snapshot on BusyBox-based UniFi device firmware.",
+      "categories": ["UniFi processes", "UniFi health"]
+    },
+    {
+      "id": "unifi.network.addresses",
+      "title": "Device IP addresses",
+      "command": "ip -brief address show",
+      "description": "Inspect management and interface addresses when the firmware includes iproute2.",
+      "categories": ["UniFi network", "UniFi interfaces"]
+    },
+    {
+      "id": "unifi.network.addresses.legacy",
+      "title": "Device interfaces (legacy firmware)",
+      "command": "ifconfig -a",
+      "description": "Inspect all interfaces using the legacy utility commonly present on older AP, switch, and USG firmware.",
+      "categories": ["UniFi network", "UniFi interfaces"],
+      "platforms": ["unifi-legacy"]
+    },
+    {
+      "id": "unifi.network.interface.stats",
+      "title": "Interface counters",
+      "command": "ip -s link show ${interface}",
+      "description": "Inspect link state, packet counters, errors, and drops for one interface.",
+      "categories": ["UniFi network", "UniFi interfaces"]
+    },
+    {
+      "id": "unifi.network.routes",
+      "title": "Device routing table",
+      "command": "ip route show",
+      "description": "Inspect active routes and the default gateway on Linux-based UniFi firmware.",
+      "categories": ["UniFi network", "UniFi routing"]
+    },
+    {
+      "id": "unifi.network.neighbors",
+      "title": "ARP and neighbor cache",
+      "command": "ip neigh show",
+      "description": "Inspect resolved and incomplete IPv4 or IPv6 neighbor entries.",
+      "categories": ["UniFi network", "UniFi neighbors"]
+    },
+    {
+      "id": "unifi.network.listeners",
+      "title": "Listening network sockets",
+      "command": "ss -lntup",
+      "description": "List listening TCP and UDP sockets when the firmware includes the ss utility.",
+      "categories": ["UniFi network", "UniFi services"]
+    },
+    {
+      "id": "unifi.network.ping",
+      "title": "Bounded connectivity test",
+      "command": "ping -c ${count} ${host}",
+      "description": "Send a bounded number of ICMP probes from the UniFi device to a host or controller.",
+      "categories": ["UniFi network", "UniFi reachability"]
+    },
+    {
+      "id": "unifi.network.traceroute",
+      "title": "Trace network path",
+      "command": "traceroute ${host}",
+      "description": "Trace the routed path from the device where its firmware includes traceroute.",
+      "categories": ["UniFi network", "UniFi reachability"],
+      "risk": "caution"
+    },
+    {
+      "id": "unifi.network.dns",
+      "title": "DNS resolution test",
+      "command": "nslookup ${hostname}",
+      "description": "Test name resolution using the DNS settings available to the device.",
+      "categories": ["UniFi network", "UniFi DNS"]
+    },
+    {
+      "id": "unifi.logs.messages.all",
+      "title": "Complete device message log",
+      "command": "cat /var/log/messages",
+      "description": "Read the complete general device log documented by Ubiquiti; output can be large and contain operational details.",
+      "categories": ["UniFi logs"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.logs.messages",
+      "title": "Recent device messages",
+      "command": "tail -n ${lines} /var/log/messages",
+      "description": "Read a bounded tail of the general device log documented by Ubiquiti.",
+      "categories": ["UniFi logs"],
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.logs.follow",
+      "title": "Follow device messages",
+      "command": "tail -f /var/log/messages",
+      "description": "Stream the general device log until interrupted with Ctrl+C.",
+      "categories": ["UniFi logs"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.gateway.logs.radius",
+      "title": "Recent gateway RADIUS log",
+      "command": "tail -n ${lines} /var/log/freeradius/radius.log",
+      "description": "Read bounded advanced RADIUS authentication logs on UniFi gateways.",
+      "categories": ["UniFi gateway logs", "UniFi authentication"],
+      "platforms": ["unifi-gateway"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.gateway.logs.dnsmasq",
+      "title": "Recent gateway DNS and DHCP log",
+      "command": "tail -n ${lines} /var/log/dnsmasq.log",
+      "description": "Read bounded advanced DNSmasq logging on gateway releases which provide this file.",
+      "categories": ["UniFi gateway logs", "UniFi DHCP", "UniFi DNS"],
+      "platforms": ["unifi-gateway"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.gateway.logs.suricata",
+      "title": "Recent gateway IDS/IPS log",
+      "command": "tail -n ${lines} /var/log/suricata/suricata.log",
+      "description": "Read bounded Suricata security-engine logging on supported UniFi gateways.",
+      "categories": ["UniFi gateway logs", "UniFi security"],
+      "platforms": ["unifi-gateway"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.capture.ap.bounded",
+      "title": "Bounded AP packet capture",
+      "command": "tcpdump -i ${interface} -c ${count}",
+      "description": "Capture a bounded packet count on an access point interface; payload may contain sensitive traffic.",
+      "categories": ["UniFi packet capture", "UniFi access points"],
+      "platforms": ["unifi-ap"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.capture.gateway.bounded",
+      "title": "Bounded gateway packet capture",
+      "command": "tcpdump -npi ${interface} -c ${count}",
+      "description": "Capture a bounded packet count without name resolution on a gateway interface; payload may be sensitive.",
+      "categories": ["UniFi packet capture", "UniFi gateways"],
+      "platforms": ["unifi-gateway"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.capture.gateway.host",
+      "title": "Gateway capture filtered by host",
+      "command": "tcpdump -npi ${interface} -c ${count} host ${host}",
+      "description": "Capture a bounded sample for one host on a gateway interface without DNS lookups.",
+      "categories": ["UniFi packet capture", "UniFi gateways"],
+      "platforms": ["unifi-gateway"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.capture.gateway.port",
+      "title": "Gateway capture filtered by port",
+      "command": "tcpdump -npi ${interface} -c ${count} port ${port}",
+      "description": "Capture a bounded sample for one TCP or UDP port on a gateway interface.",
+      "categories": ["UniFi packet capture", "UniFi gateways"],
+      "platforms": ["unifi-gateway"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.switch.debug.connect",
+      "title": "Open switch debug CLI",
+      "command": "telnet localhost",
+      "description": "Enter the internal switch CLI only when Ubiquiti Support requests advanced switch diagnostics.",
+      "categories": ["UniFi switch support", "UniFi session controls"],
+      "platforms": ["unifi-switch"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.switch.debug.enable",
+      "title": "Enter switch privileged mode",
+      "command": "enable",
+      "description": "Enter privileged mode after opening the supported internal switch CLI; context must be verified first.",
+      "categories": ["UniFi switch support", "UniFi session controls"],
+      "platforms": ["unifi-switch-debug-cli"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.switch.tech.support",
+      "title": "Generate switch technical support output",
+      "command": "show tech-support",
+      "description": "Generate detailed switch support output after entering the internal CLI and privileged mode; output can be large and sensitive.",
+      "categories": ["UniFi switch support"],
+      "platforms": ["unifi-switch-debug-cli"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.usg.logs",
+      "title": "Legacy USG general log",
+      "command": "show log",
+      "description": "Show the general log on legacy UniFi Security Gateway firmware.",
+      "categories": ["UniFi legacy USG", "UniFi logs"],
+      "platforms": ["unifi-usg-legacy"],
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.usg.vpn.logs",
+      "title": "Legacy USG VPN log",
+      "command": "show vpn log",
+      "description": "Show VPN logging on legacy UniFi Security Gateway firmware.",
+      "categories": ["UniFi legacy USG", "UniFi VPN", "UniFi logs"],
+      "platforms": ["unifi-usg-legacy"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.usg.vti.routes",
+      "title": "Legacy USG VTI routes",
+      "command": "show ip route | grep vti",
+      "description": "Show routes assigned to virtual tunnel interfaces on a legacy USG.",
+      "categories": ["UniFi legacy USG", "UniFi VPN", "UniFi routing"],
+      "platforms": ["unifi-usg-legacy"],
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.usg.tech.support",
+      "title": "Legacy USG technical support output",
+      "command": "show tech-support | no-more",
+      "description": "Generate non-paged legacy USG diagnostics for authorized support review; output can be large and sensitive.",
+      "categories": ["UniFi legacy USG", "UniFi support"],
+      "platforms": ["unifi-usg-legacy"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.server.logs.directory",
+      "title": "Self-hosted Network log files",
+      "command": "ls -lh /usr/lib/unifi/logs/",
+      "description": "List log files at the documented Debian, Ubuntu, and CloudKey UniFi Network application path.",
+      "categories": ["UniFi self-hosted server", "UniFi logs"],
+      "platforms": ["unifi-network-server-linux", "unifi-cloudkey"],
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.server.logs.server",
+      "title": "Recent self-hosted Network server log",
+      "command": "tail -n ${lines} /usr/lib/unifi/logs/server.log",
+      "description": "Read a bounded Network application server log at the documented Linux installation path.",
+      "categories": ["UniFi self-hosted server", "UniFi logs"],
+      "platforms": ["unifi-network-server-linux", "unifi-cloudkey"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.server.logs.mongodb",
+      "title": "Recent self-hosted Network database log",
+      "command": "tail -n ${lines} /usr/lib/unifi/logs/mongod.log",
+      "description": "Read bounded MongoDB logging on self-hosted Network releases which use this documented log directory and file.",
+      "categories": ["UniFi self-hosted server", "UniFi database", "UniFi logs"],
+      "platforms": ["unifi-network-server-linux", "unifi-cloudkey"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204959834-Advanced-Logging-Information"
+    },
+    {
+      "id": "unifi.adoption.inform",
+      "title": "Set controller inform URL",
+      "command": "set-inform ${inform_url}",
+      "description": "Point an adoptable device at an authorized Network application; Ubiquiti notes the command may need to be repeated after the device appears.",
+      "categories": ["UniFi adoption"],
+      "platforms": ["unifi-ap", "unifi-switch"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/360012622613-UniFi-Device-Adoption"
+    },
+    {
+      "id": "unifi.console.legacy.shell",
+      "title": "Enter legacy UniFi OS 1.x shell",
+      "command": "unifi-os shell",
+      "description": "Enter the application container shell only on UDM or UDM Pro still running UniFi OS 1.x; this does not apply to current releases.",
+      "categories": ["UniFi legacy console", "UniFi session controls"],
+      "platforms": ["unifi-os-1.x"],
+      "risk": "caution",
+      "source": "https://help.ui.com/hc/en-us/articles/204910064-UniFi-Advanced-Updating-Techniques"
+    },
+    {
+      "id": "unifi.firmware.upgrade",
+      "title": "Upgrade AP or switch firmware",
+      "command": "upgrade ${verified_firmware_url}",
+      "description": "Download and install firmware on supported APs or switches. Verify exact model, release channel, URL, and checksum before disruption.",
+      "categories": ["UniFi firmware"],
+      "platforms": ["unifi-ap", "unifi-switch"],
+      "risk": "destructive",
+      "source": "https://help.ui.com/hc/en-us/articles/204910064-UniFi-Advanced-Updating-Techniques"
+    }
+  ]
+}

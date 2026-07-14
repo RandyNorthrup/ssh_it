@@ -1,0 +1,154 @@
+{
+  "defaults": {
+    "vendors": ["Aruba AOS-CX"],
+    "tags": ["aruba", "aos-cx", "switching", "enterprise"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["aruba-aos-cx"],
+    "source": "https://www.arubanetworks.com/techdocs/AOS-CX/10.11/PDF/cli_9300.pdf"
+  },
+  "commands": [
+    {
+      "id": "aoscx.system.version",
+      "title": "AOS-CX version",
+      "command": "show version",
+      "description": "Show switch platform, AOS-CX software, build, and service OS versions.",
+      "categories": ["AOS-CX system"]
+    },
+    {
+      "id": "aoscx.system.info",
+      "title": "System information",
+      "command": "show system",
+      "description": "Show hostname, product, base MAC, serial number, uptime, and system state.",
+      "categories": ["AOS-CX system"]
+    },
+    {
+      "id": "aoscx.interface.brief",
+      "title": "Interface brief",
+      "command": "show interface brief",
+      "description": "Summarize interface administrative, link, speed, and VLAN state.",
+      "categories": ["AOS-CX interfaces"]
+    },
+    {
+      "id": "aoscx.interface.detail",
+      "title": "Interface details",
+      "command": "show interface ${interface}",
+      "description": "Inspect state, addressing, rates, errors, media, and counters on one interface.",
+      "categories": ["AOS-CX interfaces"]
+    },
+    {
+      "id": "aoscx.interface.statistics",
+      "title": "Interface statistics",
+      "command": "show interface statistics",
+      "description": "Show packets, bytes, errors, discards, and utilization across interfaces.",
+      "categories": ["AOS-CX interfaces"]
+    },
+    {
+      "id": "aoscx.vlan",
+      "title": "VLAN table",
+      "command": "show vlan",
+      "description": "Show VLAN IDs, names, status, and tagged or untagged members.",
+      "categories": ["AOS-CX VLANs"]
+    },
+    {
+      "id": "aoscx.mac.table",
+      "title": "MAC address table",
+      "command": "show mac-address-table",
+      "description": "Show learned and static MAC entries by VLAN and interface.",
+      "categories": ["AOS-CX switching"]
+    },
+    {
+      "id": "aoscx.arp",
+      "title": "ARP table",
+      "command": "show arp all-vrfs",
+      "description": "Display IPv4 neighbors across virtual routing and forwarding instances.",
+      "categories": ["AOS-CX neighbors"]
+    },
+    {
+      "id": "aoscx.route",
+      "title": "IPv4 route table",
+      "command": "show ip route all-vrfs",
+      "description": "Show IPv4 routes, protocols, distances, metrics, and next hops across VRFs.",
+      "categories": ["AOS-CX routing"]
+    },
+    {
+      "id": "aoscx.bgp.summary",
+      "title": "BGP summary",
+      "command": "show bgp all-vrfs summary",
+      "description": "Summarize BGP peers, state, uptime, and prefix counts across VRFs.",
+      "categories": ["AOS-CX BGP"]
+    },
+    {
+      "id": "aoscx.ospf.neighbors",
+      "title": "OSPF neighbors",
+      "command": "show ip ospf neighbors all-vrfs",
+      "description": "Show OSPF neighbor identity, state, dead time, and interface across VRFs.",
+      "categories": ["AOS-CX OSPF"]
+    },
+    {
+      "id": "aoscx.lldp",
+      "title": "LLDP neighbor details",
+      "command": "show lldp neighbor-info detail",
+      "description": "Show neighbor system, port, management address, and advertised capabilities.",
+      "categories": ["AOS-CX discovery"]
+    },
+    {
+      "id": "aoscx.spanning",
+      "title": "Spanning-tree state",
+      "command": "show spanning-tree",
+      "description": "Show root, bridge, topology changes, port roles, and forwarding state.",
+      "categories": ["AOS-CX spanning tree"]
+    },
+    {
+      "id": "aoscx.lacp",
+      "title": "LACP interfaces",
+      "command": "show lacp interfaces",
+      "description": "Show link aggregation groups, actors, partners, state flags, and member health.",
+      "categories": ["AOS-CX link aggregation"]
+    },
+    {
+      "id": "aoscx.vsx.brief",
+      "title": "VSX brief",
+      "command": "show vsx brief",
+      "description": "Summarize VSX role, ISL, keepalive, configuration synchronization, and peer state.",
+      "categories": ["AOS-CX VSX"]
+    },
+    {
+      "id": "aoscx.vsx.status",
+      "title": "VSX synchronization status",
+      "command": "show vsx status",
+      "description": "Show VSX configuration synchronization categories and consistency failures.",
+      "categories": ["AOS-CX VSX"]
+    },
+    {
+      "id": "aoscx.events.recent",
+      "title": "Recent events",
+      "command": "show events -r",
+      "description": "Show switch events in reverse order; output may include sensitive infrastructure context.",
+      "categories": ["AOS-CX logs"],
+      "risk": "caution"
+    },
+    {
+      "id": "aoscx.environment",
+      "title": "Environmental health",
+      "command": "show environment temperature",
+      "description": "Show temperature sensor values, limits, and alarm state.",
+      "categories": ["AOS-CX hardware"]
+    },
+    {
+      "id": "aoscx.poe.brief",
+      "title": "Power over Ethernet summary",
+      "command": "show power-over-ethernet brief",
+      "description": "Show PoE availability, consumption, and per-port delivery state.",
+      "categories": ["AOS-CX PoE"]
+    },
+    {
+      "id": "aoscx.config.running",
+      "title": "Running configuration",
+      "command": "show running-config",
+      "description": "Display active configuration, which can contain sensitive network and authentication data.",
+      "categories": ["AOS-CX configuration"],
+      "risk": "caution"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "defaults": {
+    "vendors": ["Secure File Operations"],
+    "categories": ["Secure file transfer"],
+    "tags": ["sftp", "scp", "file", "integrity"],
+    "risk": "caution",
+    "requires_connection": false,
+    "platforms": ["any"],
+    "source": "https://man.openbsd.org/scp.1"
+  },
+  "commands": [
+    {
+      "id": "files.sftp.connect",
+      "title": "Open interactive SFTP",
+      "command": "sftp -P ${port} ${user}@${host}",
+      "description": "Open SFTP session with normal SSH host-key and authentication checks."
+    },
+    {
+      "id": "files.scp.upload",
+      "title": "Upload one file with SCP",
+      "command": "scp -P ${port} -- ${local_file} ${user}@${host}:${remote_path}",
+      "description": "Copy one local file to remote path. Prefer app SFTP tab for structured transfer."
+    },
+    {
+      "id": "files.scp.download",
+      "title": "Download one file with SCP",
+      "command": "scp -P ${port} -- ${user}@${host}:${remote_file} ${local_path}",
+      "description": "Copy one remote file locally. Verify destination and free space first."
+    },
+    {
+      "id": "files.rsync.upload",
+      "title": "Rsync directory through SSH",
+      "command": "rsync -aHAX --info=progress2 --protect-args -e 'ssh -p ${port}' ${local_directory}/ ${user}@${host}:${remote_directory}/",
+      "description": "Incrementally upload directory while preserving common metadata; no deletion flag included.",
+      "platforms": ["linux", "macos"]
+    },
+    {
+      "id": "files.hash.sha256",
+      "title": "Calculate SHA-256",
+      "command": "sha256sum -- ${path}",
+      "description": "Create SHA-256 digest for transfer integrity comparison.",
+      "categories": ["File integrity"],
+      "risk": "safe",
+      "platforms": ["linux"]
+    },
+    {
+      "id": "files.hash.macos",
+      "title": "Calculate SHA-256 on macOS",
+      "command": "shasum -a 256 -- ${path}",
+      "description": "Create SHA-256 digest using standard macOS shasum.",
+      "categories": ["File integrity"],
+      "risk": "safe",
+      "platforms": ["macos"]
+    },
+    {
+      "id": "files.permissions.private-key",
+      "title": "Restrict private-key permissions",
+      "command": "chmod 600 -- ${private_key_file}",
+      "description": "Limit private key to owner read/write on POSIX systems.",
+      "categories": ["File permissions"],
+      "platforms": ["linux", "macos"]
+    },
+    {
+      "id": "files.install.atomic",
+      "title": "Install file with explicit mode",
+      "command": "sudo install -o ${owner} -g ${group} -m ${mode} -- ${source_file} ${destination_file}",
+      "description": "Copy file to final path while explicitly setting owner, group, and permissions.",
+      "categories": ["File deployment"],
+      "risk": "destructive",
+      "platforms": ["linux", "macos"]
+    },
+    {
+      "id": "files.archive.create",
+      "title": "Create compressed archive",
+      "command": "tar --create --gzip --file=${archive_name}.tar.gz -- ${path}",
+      "description": "Create gzip-compressed tar archive without deleting source files.",
+      "categories": ["Archives"],
+      "risk": "safe",
+      "platforms": ["linux", "macos"]
+    },
+    {
+      "id": "files.archive.list",
+      "title": "Inspect archive contents",
+      "command": "tar --list --verbose --file=${archive_file}",
+      "description": "List archive paths and metadata before extraction.",
+      "categories": ["Archives"],
+      "risk": "safe",
+      "platforms": ["linux", "macos"]
+    }
+  ]
+}

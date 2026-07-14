@@ -1,0 +1,158 @@
+{
+  "defaults": {
+    "vendors": ["Cisco Secure Firewall ASA"],
+    "tags": ["cisco", "asa", "secure-firewall", "vpn"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["cisco-asa"],
+    "source": "https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/S/asa-command-ref-S.html"
+  },
+  "commands": [
+    {
+      "id": "asa.system.version",
+      "title": "ASA version and uptime",
+      "command": "show version",
+      "description": "Show ASA software, platform, licenses, uptime, failover, and last reload information.",
+      "categories": ["ASA system"]
+    },
+    {
+      "id": "asa.inventory",
+      "title": "Hardware inventory",
+      "command": "show inventory",
+      "description": "List chassis, modules, and hardware serial and product identifiers.",
+      "categories": ["ASA hardware"]
+    },
+    {
+      "id": "asa.interface.brief",
+      "title": "Interface IP summary",
+      "command": "show interface ip brief",
+      "description": "Show interface IP addresses, methods, administrative state, and protocol state.",
+      "categories": ["ASA interfaces"]
+    },
+    {
+      "id": "asa.interface.names",
+      "title": "Interface security names",
+      "command": "show nameif",
+      "description": "Map physical and logical interfaces to nameif labels and security levels.",
+      "categories": ["ASA interfaces"]
+    },
+    {
+      "id": "asa.route",
+      "title": "Routing table",
+      "command": "show route",
+      "description": "Show connected, static, and dynamic routes and their next hops.",
+      "categories": ["ASA routing"]
+    },
+    {
+      "id": "asa.arp",
+      "title": "ARP table",
+      "command": "show arp",
+      "description": "Display resolved IPv4 neighbors by interface, IP, MAC, and age.",
+      "categories": ["ASA neighbors"]
+    },
+    {
+      "id": "asa.connections.count",
+      "title": "Connection count",
+      "command": "show conn count",
+      "description": "Show current and peak firewall connection counts.",
+      "categories": ["ASA connections"]
+    },
+    {
+      "id": "asa.connections.address",
+      "title": "Connections by address",
+      "command": "show conn address ${host}",
+      "description": "Filter active firewall connections involving one IPv4 or IPv6 address.",
+      "categories": ["ASA connections"],
+      "risk": "caution"
+    },
+    {
+      "id": "asa.xlate.count",
+      "title": "NAT translation count",
+      "command": "show xlate count",
+      "description": "Show current and high-water translation slot utilization.",
+      "categories": ["ASA NAT"]
+    },
+    {
+      "id": "asa.xlate.table",
+      "title": "NAT translation table",
+      "command": "show xlate",
+      "description": "Display translation slots; output can contain internal and public endpoint mappings.",
+      "categories": ["ASA NAT"],
+      "risk": "caution"
+    },
+    {
+      "id": "asa.access.lists",
+      "title": "Access-list hits",
+      "command": "show access-list",
+      "description": "Show compiled access rules and match counters for policy troubleshooting.",
+      "categories": ["ASA security policy"],
+      "risk": "caution"
+    },
+    {
+      "id": "asa.service.policy",
+      "title": "Service-policy statistics",
+      "command": "show service-policy",
+      "description": "Show inspection, policing, threat detection, and QoS policy counters.",
+      "categories": ["ASA security policy"]
+    },
+    {
+      "id": "asa.asp.drops",
+      "title": "Accelerated security path drops",
+      "command": "show asp drop",
+      "description": "Show packet drop reasons and counters in the accelerated security path.",
+      "categories": ["ASA packet flow"]
+    },
+    {
+      "id": "asa.failover",
+      "title": "Failover health",
+      "command": "show failover",
+      "description": "Show active/standby roles, interface monitoring, replication, and peer status.",
+      "categories": ["ASA high availability"]
+    },
+    {
+      "id": "asa.vpn.summary",
+      "title": "VPN session summary",
+      "command": "show vpn-sessiondb summary",
+      "description": "Summarize active and cumulative remote-access and site-to-site VPN sessions.",
+      "categories": ["ASA VPN"]
+    },
+    {
+      "id": "asa.vpn.anyconnect",
+      "title": "AnyConnect session details",
+      "command": "show vpn-sessiondb detail anyconnect",
+      "description": "Show connected users, public and assigned addresses, tunnels, algorithms, and traffic counters.",
+      "categories": ["ASA VPN"],
+      "risk": "caution"
+    },
+    {
+      "id": "asa.vpn.ikev2",
+      "title": "IKEv2 security associations",
+      "command": "show crypto ikev2 sa",
+      "description": "Show current IKEv2 negotiations, peers, state, and cryptographic suites.",
+      "categories": ["ASA VPN"]
+    },
+    {
+      "id": "asa.vpn.ipsec",
+      "title": "IPsec security associations",
+      "command": "show crypto ipsec sa",
+      "description": "Show IPsec selectors, peers, transforms, lifetimes, and encapsulation counters.",
+      "categories": ["ASA VPN"]
+    },
+    {
+      "id": "asa.packet.tracer.tcp",
+      "title": "Simulate TCP packet path",
+      "command": "packet-tracer input ${interface} tcp ${source_host} ${source_port} ${destination_host} ${destination_port} detailed",
+      "description": "Simulate one TCP flow through NAT, policy, inspection, and routing without sending the packet.",
+      "categories": ["ASA packet flow"],
+      "risk": "caution"
+    },
+    {
+      "id": "asa.config.running",
+      "title": "Running configuration",
+      "command": "show running-config",
+      "description": "Display active configuration, including sensitive topology and encrypted credential material.",
+      "categories": ["ASA configuration"],
+      "risk": "caution"
+    }
+  ]
+}

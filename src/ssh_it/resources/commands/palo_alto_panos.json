@@ -1,0 +1,157 @@
+{
+  "defaults": {
+    "vendors": ["Palo Alto PAN-OS"],
+    "tags": ["palo-alto", "pan-os", "firewall", "enterprise"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["pan-os"],
+    "source": "https://docs.paloaltonetworks.com/ngfw/pan-os-cli-quick-start"
+  },
+  "commands": [
+    {
+      "id": "panos.system.info",
+      "title": "System information",
+      "command": "show system info",
+      "description": "Show model, serial number, software version, uptime, hostname, and management details.",
+      "categories": ["PAN-OS system"]
+    },
+    {
+      "id": "panos.system.resources",
+      "title": "Management-plane resources",
+      "command": "show system resources",
+      "description": "Inspect management-plane CPU, memory, load, and processes.",
+      "categories": ["PAN-OS performance"]
+    },
+    {
+      "id": "panos.system.disk",
+      "title": "Disk and inode usage",
+      "command": "show system disk-space files",
+      "description": "Show disk partition and inode utilization to identify capacity pressure.",
+      "categories": ["PAN-OS storage"]
+    },
+    {
+      "id": "panos.software.status",
+      "title": "Software process status",
+      "command": "show system software status",
+      "description": "List PAN-OS software processes and current running states.",
+      "categories": ["PAN-OS processes"]
+    },
+    {
+      "id": "panos.jobs.all",
+      "title": "Recent jobs",
+      "command": "show jobs all",
+      "description": "Show commit, content, software, and operational job progress and failures.",
+      "categories": ["PAN-OS jobs"]
+    },
+    {
+      "id": "panos.admins",
+      "title": "Configured administrators",
+      "command": "show admins all",
+      "description": "List administrator accounts visible to the firewall; output can expose account names.",
+      "categories": ["PAN-OS administration"],
+      "risk": "caution"
+    },
+    {
+      "id": "panos.clock",
+      "title": "System clock",
+      "command": "show clock",
+      "description": "Display firewall date and time for log and incident correlation.",
+      "categories": ["PAN-OS system"]
+    },
+    {
+      "id": "panos.interfaces.all",
+      "title": "All interface state",
+      "command": "show interface all",
+      "description": "Show configured interfaces, link state, addressing, zones, and counters.",
+      "categories": ["PAN-OS interfaces"]
+    },
+    {
+      "id": "panos.arp.all",
+      "title": "ARP table",
+      "command": "show arp all",
+      "description": "Display IPv4 neighbor resolution entries across interfaces.",
+      "categories": ["PAN-OS neighbors"]
+    },
+    {
+      "id": "panos.routing.route",
+      "title": "Routing table",
+      "command": "show routing route",
+      "description": "Display installed routes, next hops, metrics, and route sources.",
+      "categories": ["PAN-OS routing"]
+    },
+    {
+      "id": "panos.routing.bgp.summary",
+      "title": "BGP peer summary",
+      "command": "show routing protocol bgp summary",
+      "description": "Summarize BGP peer state and received route counts.",
+      "categories": ["PAN-OS BGP"]
+    },
+    {
+      "id": "panos.session.info",
+      "title": "Session utilization",
+      "command": "show session info",
+      "description": "Show current and maximum session counts, packet rate, and session setup rate.",
+      "categories": ["PAN-OS sessions"]
+    },
+    {
+      "id": "panos.session.source",
+      "title": "Sessions by source",
+      "command": "show session all filter source ${host}",
+      "description": "Filter active sessions by a source IPv4 or IPv6 address.",
+      "categories": ["PAN-OS sessions"],
+      "risk": "caution"
+    },
+    {
+      "id": "panos.counters.drops",
+      "title": "Global drop counters",
+      "command": "show counter global filter severity drop delta yes",
+      "description": "Show the delta of global counters classified as packet drops.",
+      "categories": ["PAN-OS packet flow"]
+    },
+    {
+      "id": "panos.ha.state",
+      "title": "High-availability state",
+      "command": "show high-availability state",
+      "description": "Show local and peer HA roles, synchronization, and link states.",
+      "categories": ["PAN-OS high availability"]
+    },
+    {
+      "id": "panos.vpn.ike",
+      "title": "IKE security associations",
+      "command": "show vpn ike-sa",
+      "description": "Show current Internet Key Exchange security associations.",
+      "categories": ["PAN-OS VPN"]
+    },
+    {
+      "id": "panos.vpn.ipsec",
+      "title": "IPsec security associations",
+      "command": "show vpn ipsec-sa",
+      "description": "Show IPsec tunnel security associations, algorithms, and counters.",
+      "categories": ["PAN-OS VPN"]
+    },
+    {
+      "id": "panos.logs.system",
+      "title": "Recent system logs",
+      "command": "show log system direction equal backward count ${count}",
+      "description": "Read a bounded number of newest system log records; output can contain infrastructure details.",
+      "categories": ["PAN-OS logs"],
+      "risk": "caution"
+    },
+    {
+      "id": "panos.config.running",
+      "title": "Running configuration",
+      "command": "show config running",
+      "description": "Display active configuration, which can contain addresses, usernames, and encrypted secrets.",
+      "categories": ["PAN-OS configuration"],
+      "risk": "caution"
+    },
+    {
+      "id": "panos.system.restart",
+      "title": "Restart firewall",
+      "command": "request restart system",
+      "description": "Restart the firewall and disrupt all traffic and management sessions.",
+      "categories": ["PAN-OS lifecycle"],
+      "risk": "destructive"
+    }
+  ]
+}

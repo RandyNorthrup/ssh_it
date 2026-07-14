@@ -1,0 +1,135 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  QT_QPA_PLATFORM: offscreen
+  UV_FROZEN: "1"
+
+jobs:
+  quality:
+    name: Strict quality and security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
+        with:
+          enable-cache: true
+          python-version: "3.13"
+          version: "0.11.28"
+      - name: Install locked dependencies
+        run: uv sync --locked --all-extras --dev
+      - name: Ruff format
+        run: uv run ruff format --check .
+      - name: Ruff lint
+        run: uv run ruff check .
+      - name: GitHub Actions lint
+        run: uv run actionlint .github/workflows/ci.yml
+      - name: YAML lint
+        run: uv run yamllint .github/workflows/ci.yml .yamllint.yaml
+      - name: Markdown lint
+        run: >-
+          uv run pymarkdown --config .pymarkdown.json --strict-config scan
+          README.md DESIGN.md SECURITY.md LIBRARY.md CREDENTIALS.md
+      - name: Mypy
+        run: uv run mypy src tests
+      - name: Pyright
+        run: uv run pyright
+      - name: Pylint
+        run: uv run pylint src/ssh_it
+      - name: Bandit
+        run: uv run bandit -c pyproject.toml -r src
+      - name: Dependency audit
+        run: uv run pip-audit
+      - name: Full test suite and coverage
+        run: uv run pytest
+      - name: Build Python distributions
+        run: uv build
+      - name: Smoke test wheel
+        run: uv run --isolated --no-project --with ./dist/*.whl ssh-it --smoke-test
+      - name: Smoke test source distribution
+        run: uv run --isolated --no-project --with ./dist/*.tar.gz ssh-it --smoke-test
+
+  cross-platform-tests:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python }}
+          version: "0.11.28"
+      - name: Install locked dependencies
+        run: uv sync --locked --extra dev
+      - name: Run tests
+        run: uv run pytest
+
+  package:
+    name: Package (${{ matrix.os }})
+    needs: [quality, cross-platform-tests]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
+        with:
+          enable-cache: true
+          python-version: "3.13"
+          version: "0.11.28"
+      - name: Install locked packaging environment
+        run: uv sync --locked --extra packaging
+      - name: Build native application bundle
+        run: uv run pyinstaller packaging/ssh_it.spec --noconfirm --clean
+      - name: Smoke test Linux bundle
+        if: runner.os == 'Linux'
+        env:
+          SSH_IT_LAUNCH_MODE: bundle
+        run: ./scripts/launch.sh --smoke-test
+      - name: Smoke test macOS bundle
+        if: runner.os == 'macOS'
+        env:
+          SSH_IT_LAUNCH_MODE: bundle
+        run: ./scripts/launch.command --smoke-test
+      - name: Smoke test Windows bundle
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          SSH_IT_LAUNCH_MODE: bundle
+        run: '& ".\scripts\launch.ps1" --smoke-test'
+      - name: Upload unsigned test bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: ssh-it-${{ runner.os }}-unsigned
+          path: dist/**
+          if-no-files-found: error
+          retention-days: 14

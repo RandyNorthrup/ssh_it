@@ -1,0 +1,175 @@
+{
+  "defaults": {
+    "vendors": ["Windows PowerShell"],
+    "tags": ["windows", "powershell", "server", "technician"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["windows"],
+    "source": "https://learn.microsoft.com/en-us/powershell/module/?view=powershell-7.6"
+  },
+  "commands": [
+    {
+      "id": "windows.computer.info",
+      "title": "Computer summary",
+      "command": "Get-ComputerInfo | Select-Object CsName,WindowsProductName,WindowsVersion,OsBuildNumber,CsDomain,CsTotalPhysicalMemory",
+      "description": "Show host identity, Windows edition, build, domain, and physical memory.",
+      "categories": ["Windows system"]
+    },
+    {
+      "id": "windows.os.uptime",
+      "title": "Operating system and uptime",
+      "command": "Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber,LastBootUpTime,FreePhysicalMemory",
+      "description": "Show OS version, last boot, and free physical memory through CIM.",
+      "categories": ["Windows system"]
+    },
+    {
+      "id": "windows.adapters",
+      "title": "Network adapters",
+      "command": "Get-NetAdapter | Sort-Object Name | Format-Table Name,Status,LinkSpeed,MacAddress,InterfaceDescription -AutoSize",
+      "description": "List network adapters with link, speed, MAC, and hardware description.",
+      "categories": ["Windows networking"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/netadapter/get-netadapter?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.ip.configuration",
+      "title": "IP configuration",
+      "command": "Get-NetIPConfiguration -Detailed",
+      "description": "Show interface addresses, gateways, DNS servers, profiles, and adapter state.",
+      "categories": ["Windows networking"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-netipconfiguration?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.ip.addresses",
+      "title": "IP address table",
+      "command": "Get-NetIPAddress | Sort-Object InterfaceIndex,AddressFamily",
+      "description": "List IPv4 and IPv6 addresses, prefix length, origin, state, and interface.",
+      "categories": ["Windows networking"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-netipaddress?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.routes",
+      "title": "Routing table",
+      "command": "Get-NetRoute | Sort-Object AddressFamily,RouteMetric,DestinationPrefix",
+      "description": "Show destinations, next hops, route metrics, and interfaces.",
+      "categories": ["Windows routing"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-netroute?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.neighbors",
+      "title": "Neighbor cache",
+      "command": "Get-NetNeighbor | Sort-Object InterfaceIndex,IPAddress",
+      "description": "Show IPv4 ARP and IPv6 neighbor cache entries and reachability state.",
+      "categories": ["Windows neighbors"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-netneighbor?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.tcp.connections",
+      "title": "TCP connections",
+      "command": "Get-NetTCPConnection | Sort-Object State,LocalPort",
+      "description": "List local and remote endpoints, TCP state, and owning process; endpoint data can be sensitive.",
+      "categories": ["Windows networking"],
+      "risk": "caution",
+      "source": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.test.port",
+      "title": "Test remote TCP port",
+      "command": "Test-NetConnection -ComputerName ${host} -Port ${port} -InformationLevel Detailed",
+      "description": "Test DNS, route, source address, ping, and TCP reachability to one host and port.",
+      "categories": ["Windows diagnostics"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.dns.resolve",
+      "title": "Resolve DNS name",
+      "command": "Resolve-DnsName ${host}",
+      "description": "Query configured DNS resolvers and show returned resource records.",
+      "categories": ["Windows DNS"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/dnsclient/resolve-dnsname?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.dns.cache",
+      "title": "DNS client cache",
+      "command": "Get-DnsClientCache",
+      "description": "Show cached DNS records on the Windows DNS client.",
+      "categories": ["Windows DNS"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/dnsclient/get-dnsclientcache?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.services",
+      "title": "Service state",
+      "command": "Get-Service | Sort-Object Status,Name",
+      "description": "List Windows services with running or stopped state and names.",
+      "categories": ["Windows services"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-service?view=powershell-7.6"
+    },
+    {
+      "id": "windows.service.one",
+      "title": "One service detail",
+      "command": "Get-Service -Name ${service} | Format-List *",
+      "description": "Inspect state, dependencies, startup type, and metadata for one service.",
+      "categories": ["Windows services"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-service?view=powershell-7.6"
+    },
+    {
+      "id": "windows.events.system",
+      "title": "Recent System events",
+      "command": "Get-WinEvent -LogName System -MaxEvents ${count}",
+      "description": "Read a bounded set of newest Windows System event records.",
+      "categories": ["Windows events"],
+      "risk": "caution",
+      "source": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-7.6"
+    },
+    {
+      "id": "windows.events.errors",
+      "title": "Recent System errors",
+      "command": "Get-WinEvent -FilterHashtable @{LogName='System';Level=2} -MaxEvents ${count}",
+      "description": "Read a bounded set of error-level System events for triage.",
+      "categories": ["Windows events"],
+      "risk": "caution",
+      "source": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-7.6"
+    },
+    {
+      "id": "windows.processes.cpu",
+      "title": "Top CPU processes",
+      "command": "Get-Process | Sort-Object CPU -Descending | Select-Object -First ${count} Name,Id,CPU,WorkingSet,Path",
+      "description": "Show a bounded list of processes ranked by accumulated CPU time.",
+      "categories": ["Windows processes"],
+      "risk": "caution"
+    },
+    {
+      "id": "windows.volumes",
+      "title": "Volume capacity",
+      "command": "Get-Volume | Sort-Object DriveLetter | Format-Table DriveLetter,FileSystemLabel,FileSystem,HealthStatus,SizeRemaining,Size -AutoSize",
+      "description": "Show mounted volume filesystem, health, capacity, and free space.",
+      "categories": ["Windows storage"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/storage/get-volume?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.disks.physical",
+      "title": "Physical disk health",
+      "command": "Get-PhysicalDisk | Format-Table FriendlyName,MediaType,HealthStatus,OperationalStatus,Size -AutoSize",
+      "description": "Show physical media type, health, operational state, and capacity.",
+      "categories": ["Windows storage"],
+      "source": "https://learn.microsoft.com/en-us/powershell/module/storage/get-physicaldisk?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.smb.sessions",
+      "title": "SMB sessions",
+      "command": "Get-SmbSession | Format-Table ClientComputerName,ClientUserName,NumOpens,Dialect,SecondsIdle -AutoSize",
+      "description": "Show SMB client systems and users; output contains identity and endpoint data.",
+      "categories": ["Windows SMB"],
+      "risk": "caution",
+      "source": "https://learn.microsoft.com/en-us/powershell/module/smbshare/get-smbsession?view=windowsserver2025-ps"
+    },
+    {
+      "id": "windows.service.restart",
+      "title": "Restart Windows service",
+      "command": "Restart-Service -Name ${service}",
+      "description": "Stop and restart one service, potentially disrupting dependent applications.",
+      "categories": ["Windows services"],
+      "risk": "destructive",
+      "source": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/restart-service?view=powershell-7.6"
+    }
+  ]
+}

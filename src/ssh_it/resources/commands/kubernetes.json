@@ -1,0 +1,160 @@
+{
+  "defaults": {
+    "vendors": ["Kubernetes"],
+    "tags": ["kubernetes", "kubectl", "containers", "cluster"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["kubernetes-client"],
+    "source": "https://kubernetes.io/docs/reference/kubectl/quick-reference/"
+  },
+  "commands": [
+    {
+      "id": "k8s.context.current",
+      "title": "Current kubectl context",
+      "command": "kubectl config current-context",
+      "description": "Show the cluster and identity context targeted by subsequent kubectl commands.",
+      "categories": ["Kubernetes context"]
+    },
+    {
+      "id": "k8s.cluster.info",
+      "title": "Cluster endpoints",
+      "command": "kubectl cluster-info",
+      "description": "Show control-plane and core service endpoints for the current context.",
+      "categories": ["Kubernetes cluster"]
+    },
+    {
+      "id": "k8s.nodes.wide",
+      "title": "Nodes with addressing",
+      "command": "kubectl get nodes -o wide",
+      "description": "Show node readiness, roles, versions, addresses, images, and container runtime.",
+      "categories": ["Kubernetes nodes"]
+    },
+    {
+      "id": "k8s.node.describe",
+      "title": "Node details",
+      "command": "kubectl describe node ${host}",
+      "description": "Show one node's conditions, capacity, allocations, labels, taints, pods, and events.",
+      "categories": ["Kubernetes nodes"],
+      "risk": "caution"
+    },
+    {
+      "id": "k8s.pods.all",
+      "title": "Pods in all namespaces",
+      "command": "kubectl get pods --all-namespaces -o wide",
+      "description": "Show pod readiness, state, restarts, addresses, nodes, and namespaces.",
+      "categories": ["Kubernetes workloads"]
+    },
+    {
+      "id": "k8s.pod.describe",
+      "title": "Pod details",
+      "command": "kubectl describe pod ${pod} --namespace ${namespace}",
+      "description": "Show container state, probes, mounts, scheduling, conditions, and events for one pod.",
+      "categories": ["Kubernetes workloads"],
+      "risk": "caution"
+    },
+    {
+      "id": "k8s.pod.logs",
+      "title": "Bounded pod logs",
+      "command": "kubectl logs ${pod} --namespace ${namespace} --tail ${lines} --timestamps",
+      "description": "Read a bounded timestamped log tail; application output can contain secrets.",
+      "categories": ["Kubernetes logs"],
+      "risk": "caution"
+    },
+    {
+      "id": "k8s.pod.logs.previous",
+      "title": "Previous container logs",
+      "command": "kubectl logs ${pod} --namespace ${namespace} --previous --tail ${lines} --timestamps",
+      "description": "Read bounded logs from the previous terminated container instance.",
+      "categories": ["Kubernetes logs"],
+      "risk": "caution"
+    },
+    {
+      "id": "k8s.events.all",
+      "title": "Cluster events by time",
+      "command": "kubectl get events --all-namespaces --sort-by=.lastTimestamp",
+      "description": "Show scheduling, health, image, volume, and policy events across namespaces.",
+      "categories": ["Kubernetes events"],
+      "risk": "caution"
+    },
+    {
+      "id": "k8s.top.nodes",
+      "title": "Node resource usage",
+      "command": "kubectl top nodes",
+      "description": "Show current node CPU and memory usage when Metrics Server is available.",
+      "categories": ["Kubernetes performance"]
+    },
+    {
+      "id": "k8s.top.pods",
+      "title": "Pod resource usage",
+      "command": "kubectl top pods --all-namespaces --sort-by=cpu",
+      "description": "Show current pod CPU and memory use across namespaces, sorted by CPU.",
+      "categories": ["Kubernetes performance"]
+    },
+    {
+      "id": "k8s.deployments",
+      "title": "Deployments in all namespaces",
+      "command": "kubectl get deployments --all-namespaces -o wide",
+      "description": "Show desired, current, available, and updated replicas and container images.",
+      "categories": ["Kubernetes workloads"]
+    },
+    {
+      "id": "k8s.rollout.status",
+      "title": "Deployment rollout status",
+      "command": "kubectl rollout status deployment/${deployment} --namespace ${namespace}",
+      "description": "Watch one deployment until its rollout completes or fails.",
+      "categories": ["Kubernetes rollout"],
+      "risk": "caution"
+    },
+    {
+      "id": "k8s.services",
+      "title": "Services in all namespaces",
+      "command": "kubectl get services --all-namespaces -o wide",
+      "description": "Show service types, cluster and external addresses, selectors, and ports.",
+      "categories": ["Kubernetes networking"]
+    },
+    {
+      "id": "k8s.endpointslices",
+      "title": "Endpoint slices",
+      "command": "kubectl get endpointslices --all-namespaces",
+      "description": "Show service backend endpoint slices and address types across namespaces.",
+      "categories": ["Kubernetes networking"]
+    },
+    {
+      "id": "k8s.ingress",
+      "title": "Ingress resources",
+      "command": "kubectl get ingress --all-namespaces -o wide",
+      "description": "Show ingress classes, hosts, addresses, ports, and age.",
+      "categories": ["Kubernetes networking"]
+    },
+    {
+      "id": "k8s.storage",
+      "title": "Persistent volumes and claims",
+      "command": "kubectl get persistentvolumes,persistentvolumeclaims --all-namespaces",
+      "description": "Show persistent volume capacity, access, class, binding, status, and claims.",
+      "categories": ["Kubernetes storage"]
+    },
+    {
+      "id": "k8s.auth.can-i",
+      "title": "Check current authorization",
+      "command": "kubectl auth can-i ${verb} ${resource} --namespace ${namespace}",
+      "description": "Ask the API authorization layer whether the current identity can perform one action.",
+      "categories": ["Kubernetes authorization"]
+    },
+    {
+      "id": "k8s.rollout.restart",
+      "title": "Restart deployment rollout",
+      "command": "kubectl rollout restart deployment/${deployment} --namespace ${namespace}",
+      "description": "Trigger replacement of all pods in one deployment and potentially disrupt workload capacity.",
+      "categories": ["Kubernetes rollout"],
+      "risk": "destructive"
+    },
+    {
+      "id": "k8s.pod.delete",
+      "title": "Delete one pod",
+      "command": "kubectl delete pod ${pod} --namespace ${namespace}",
+      "description": "Delete one pod; a controller may replace it, but active connections and local state can be lost.",
+      "categories": ["Kubernetes workloads"],
+      "risk": "destructive"
+    }
+  ]
+}

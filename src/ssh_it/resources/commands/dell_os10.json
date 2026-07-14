@@ -1,0 +1,153 @@
+{
+  "defaults": {
+    "vendors": ["Dell SmartFabric OS10"],
+    "tags": ["dell", "os10", "smartfabric", "datacenter"],
+    "risk": "safe",
+    "requires_connection": true,
+    "platforms": ["dell-os10"],
+    "source": "https://www.dell.com/support/manuals/en-us/dell-emc-smartfabric-os10/smartfabric-os-user-guide-10-5-3/dir?guid=guid-f833fd23-35ec-4532-8e9e-1cc50f87a6ca&lang=en-us"
+  },
+  "commands": [
+    {
+      "id": "os10.system.version",
+      "title": "OS10 version and uptime",
+      "command": "show version",
+      "description": "Show SmartFabric OS10 software, platform, uptime, and image information.",
+      "categories": ["OS10 system"]
+    },
+    {
+      "id": "os10.inventory",
+      "title": "Hardware inventory",
+      "command": "show inventory",
+      "description": "List chassis, components, product identifiers, and serial numbers.",
+      "categories": ["OS10 hardware"]
+    },
+    {
+      "id": "os10.system.status",
+      "title": "System status",
+      "command": "show system",
+      "description": "Show switch identity, system health, uptime, and management state.",
+      "categories": ["OS10 system"]
+    },
+    {
+      "id": "os10.interface.status",
+      "title": "Interface status",
+      "command": "show interface status",
+      "description": "Summarize physical port link, mode, VLAN, speed, and media state.",
+      "categories": ["OS10 interfaces"]
+    },
+    {
+      "id": "os10.interface.detail",
+      "title": "Interface details",
+      "command": "show interface ${interface}",
+      "description": "Inspect state, addressing, rates, errors, MTU, and counters for one interface.",
+      "categories": ["OS10 interfaces"]
+    },
+    {
+      "id": "os10.interface.counters",
+      "title": "Interface counters",
+      "command": "show interface counters",
+      "description": "Compare packet, byte, discard, and error counters across ports.",
+      "categories": ["OS10 interfaces"]
+    },
+    {
+      "id": "os10.vlan",
+      "title": "VLAN table",
+      "command": "show vlan",
+      "description": "Show VLAN IDs, names, status, and member interfaces.",
+      "categories": ["OS10 VLANs"]
+    },
+    {
+      "id": "os10.mac.table",
+      "title": "MAC address table",
+      "command": "show mac address-table",
+      "description": "Display dynamic and static MAC entries by VLAN and interface.",
+      "categories": ["OS10 switching"]
+    },
+    {
+      "id": "os10.arp",
+      "title": "ARP table",
+      "command": "show arp",
+      "description": "Show IPv4 neighbor address, MAC, age, and interface.",
+      "categories": ["OS10 neighbors"]
+    },
+    {
+      "id": "os10.route",
+      "title": "IPv4 routing table",
+      "command": "show ip route",
+      "description": "Show IPv4 prefixes, protocols, metrics, next hops, and interfaces.",
+      "categories": ["OS10 routing"]
+    },
+    {
+      "id": "os10.bgp.summary",
+      "title": "BGP summary",
+      "command": "show ip bgp summary",
+      "description": "Summarize BGP peers, state, uptime, and accepted prefix counts.",
+      "categories": ["OS10 BGP"]
+    },
+    {
+      "id": "os10.bgp.evpn",
+      "title": "BGP EVPN routes",
+      "command": "show ip bgp l2vpn evpn",
+      "description": "Show EVPN route types, route distinguishers, next hops, and path attributes.",
+      "categories": ["OS10 EVPN"]
+    },
+    {
+      "id": "os10.ospf.neighbors",
+      "title": "OSPF neighbors",
+      "command": "show ip ospf neighbor",
+      "description": "Show OSPF neighbor IDs, state, dead time, and interfaces.",
+      "categories": ["OS10 OSPF"]
+    },
+    {
+      "id": "os10.lldp",
+      "title": "LLDP neighbors",
+      "command": "show lldp neighbors",
+      "description": "Show directly connected neighbor chassis, ports, names, and capabilities.",
+      "categories": ["OS10 discovery"]
+    },
+    {
+      "id": "os10.spanning",
+      "title": "Spanning-tree state",
+      "command": "show spanning-tree",
+      "description": "Show root bridge, topology, port roles, costs, and forwarding state.",
+      "categories": ["OS10 spanning tree"]
+    },
+    {
+      "id": "os10.portchannel.summary",
+      "title": "Port-channel summary",
+      "command": "show port-channel summary",
+      "description": "Show aggregate interfaces, protocols, member ports, and operational flags.",
+      "categories": ["OS10 link aggregation"]
+    },
+    {
+      "id": "os10.lacp.neighbor",
+      "title": "LACP neighbors",
+      "command": "show lacp neighbor",
+      "description": "Show partner system IDs, ports, keys, and LACP state.",
+      "categories": ["OS10 link aggregation"]
+    },
+    {
+      "id": "os10.vlt",
+      "title": "VLT health",
+      "command": "show vlt",
+      "description": "Show VLT role, peer status, interconnect, backup link, and consistency.",
+      "categories": ["OS10 VLT"]
+    },
+    {
+      "id": "os10.vlt.mismatch",
+      "title": "VLT configuration mismatches",
+      "command": "show vlt mismatch",
+      "description": "Display configuration differences which can prevent consistent VLT forwarding.",
+      "categories": ["OS10 VLT"]
+    },
+    {
+      "id": "os10.config.running",
+      "title": "Running configuration",
+      "command": "show running-configuration",
+      "description": "Display active configuration, which can expose topology and credential material.",
+      "categories": ["OS10 configuration"],
+      "risk": "caution"
+    }
+  ]
+}

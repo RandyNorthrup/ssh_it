@@ -1,0 +1,164 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ssh-it"
+version = "0.1.0"
+description = "Secure SSH workspace with vendor-aware command discovery and completion"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "SSH It contributors" }]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: X11 Applications :: Qt",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: System :: Networking",
+]
+dependencies = [
+  "asyncssh>=2.24.0,<3",
+  "keyring>=25.6,<26",
+  "platformdirs>=4.3,<5",
+  "PySide6>=6.9,<7",
+  "pyte>=0.8.2,<1",
+]
+
+[project.gui-scripts]
+ssh-it = "ssh_it.app:main"
+
+[project.optional-dependencies]
+dev = [
+  "actionlint-py==1.7.12.24",
+  "bandit[toml]>=1.8,<2",
+  "mypy>=1.16,<2",
+  "pip-audit>=2.9,<3",
+  "pre-commit>=4.2,<5",
+  "pymarkdownlnt>=0.9.39,<0.10",
+  "pylint>=3.3,<4",
+  "pyright>=1.1.400,<2",
+  "pytest-cov>=6.1,<7",
+  "pytest-qt>=4.4,<5",
+  "pytest>=9.0.3,<10",
+  "ruff>=0.12,<1",
+  "yamllint>=1.37,<2",
+]
+packaging = ["pyinstaller>=6.14,<7"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ssh_it"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/README.md",
+  "/DESIGN.md",
+  "/CREDENTIALS.md",
+  "/LAUNCHING.md",
+  "/LIBRARY.md",
+  "/SECURITY.md",
+  "/LICENSE",
+  "/scripts",
+]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers --cov=ssh_it --cov-report=term-missing:skip-covered --cov-fail-under=85"
+minversion = "8.4"
+qt_api = "pyside6"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["ssh_it"]
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+  "raise NotImplementedError",
+]
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "COM812",  # conflicts with formatter
+  "D203",    # conflicts with D211
+  "D213",    # conflicts with D212
+  "EM101",   # direct validation messages are clearer than one-use variables
+  "EM102",   # direct formatted validation messages keep field context local
+  "FBT001",  # Qt signal/slot APIs require positional bool callbacks
+  "FBT002",  # Qt signal/slot APIs require positional bool defaults
+  "FBT003",  # Qt widget setters require positional bool values
+  "ISC001",  # conflicts with formatter
+  "TRY003",  # domain validation uses concise built-in exception messages
+  "TRY004",  # JSON schema mismatches consistently surface as ValueError
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ARG001", "ARG002", "PLR2004", "S101", "S105", "S106"]
+"src/ssh_it/ui/connection.py" = ["PLR0915"]
+"src/ssh_it/ui/credential_panel.py" = ["PLR0915"]
+"src/ssh_it/ui/library_panel.py" = ["PLR0915"]
+"src/ssh_it/ui/terminal_pane.py" = ["PLR0915"]
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 15
+max-statements = 60
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+show_error_codes = true
+pretty = true
+plugins = []
+
+[[tool.mypy.overrides]]
+module = ["pyte", "pyte.*"]
+ignore_missing_imports = true
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = "warning"
+reportPrivateUsage = "warning"
+
+[tool.pylint.main]
+py-version = "3.11"
+jobs = 0
+load-plugins = []
+extension-pkg-allow-list = ["PySide6"]
+
+[tool.pylint.design]
+max-args = 8
+max-attributes = 25
+max-locals = 20
+max-positional-arguments = 8
+max-statements = 100
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = []
