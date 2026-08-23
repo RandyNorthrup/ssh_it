@@ -138,3 +138,9 @@ on macOS, notarization. See [DESIGN.md](DESIGN.md), [SECURITY.md](SECURITY.md),
 Terminal rendering targets administration shells and network-device CLIs. It supports ANSI/VT
 screen output and PTY resize, but the command composer intentionally owns local completion.
 Mouse-heavy full-screen terminal applications are not the primary use case.
+
+## Support this project
+
+If this project saves you time, you can
+[buy me a coffee](https://www.paypal.com/donate/?hosted_button_id=Q9VC7B42R7K82)
+via PayPal. Thank you!
